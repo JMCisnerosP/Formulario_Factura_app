@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmación de Envío</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 700px;
+            margin: 50px auto;
+            background-color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            background-color: #ecf0f1;
+            margin: 10px 0;
+            padding: 12px 18px;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        strong {
+            color: #34495e;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Datos Recibidos</h1>
+        <ul>
+            <li><strong>Nombre:</strong> {{ datos.nombre }}</li>
+            <li><strong>RFC:</strong> {{ datos.rfc }}</li>
+            <li><strong>Correo:</strong> {{ datos.correo }}</li>
+            <li><strong>Código Postal:</strong> {{ datos.codigo_postal }}</li>
+            <li><strong>Teléfono:</strong> {{ datos.telefono }}</li>
+            <li><strong>Régimen Fiscal:</strong> {{ datos.regimen_fiscal }}</li>
+            <li><strong>Número de Ticket:</strong> {{ datos.ticket }}</li>
+            <li><strong>Uso CFDI:</strong> {{ datos.uso_cfdi }}</li>
+            <li><strong>Monto:</strong> {{ datos.monto }}</li>
+            <li><strong>Forma de Pago:</strong> {{ datos.forma_pago }}</li>
+            <li><strong>Método de Pago:</strong> {{ datos.metodo_pago }}</li>
+            <li><strong>Archivo Subido:</strong> {{ datos.archivo }}</li>
+        </ul>
+        <div class="footer">
+            Gracias por enviar tu solicitud de factura.
+        </div>
+    </div>
+</body>
+</html>

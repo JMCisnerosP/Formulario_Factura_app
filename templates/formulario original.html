@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Solicitud de Factura</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background-color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333333;
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #444444;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="file"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            text-transform: uppercase;
+        }
+        input[type="submit"] {
+            margin-top: 25px;
+            width: 100%;
+            padding: 12px;
+            background-color: #0078d4;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #005fa3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Formulario de Solicitud de Factura</h1>
+        <form action="/enviar" method="post" enctype="multipart/form-data">
+            <label>Nombre o Razón Social:</label>
+            <input type="text" name="nombre" required>
+
+            <label>RFC:</label>
+            <input type="text" name="rfc" required>
+
+            <label>Correo Electrónico:</label>
+            <input type="email" name="correo" required>
+
+            <label>Uso del CFDI:</label>
+            <select name="uso_cfdi" required>
+                <option value="G01">G01 - Adquisición de mercancías</option>
+                <option value="G03">G03 - Gastos en general</option>
+                <option value="P01">P01 - Por definir</option>
+            </select>
+
+            <label>Monto:</label>
+            <input type="number" name="monto" placeholder="0.00" required>
+
+            <label>Forma y Método de Pago:</label>
+            <select name="forma_pago" required>
+                <option value="03|PUE">03 - Transferencia electrónica / PUE - Pago en una sola exhibición</option>
+                <option value="03|PPD">03 - Transferencia electrónica / PPD - Pago en parcialidades o diferido</option>
+                <option value="01|PUE">01 - Efectivo / PUE - Pago en una sola exhibición</option>
+                <option value="04|PUE">04 - Tarjeta de crédito / PUE - Pago en una sola exhibición</option>
+                <option value="28|PUE">28 - Tarjeta de débito / PUE - Pago en una sola exhibición</option>
+                <option value="99|PPD">99 - Por definir / PPD - Pago en parcialidades o diferido</option>
+            </select>
+
+            <label>Constancia de Situación Fiscal (PDF o imagen):</label>
+            <input type="file" name="constancia" accept=".pdf,.jpg,.jpeg,.png" required>
+
+            <input type="submit" value="Enviar">
+        </form>
+    </div>
+</body>
+</html>
