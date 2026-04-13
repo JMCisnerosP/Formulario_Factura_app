@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: mi-app-facturas
+    name: faappciesa
     env: python
     buildCommand: "pip install -r requirements.txt"
     startCommand: "gunicorn app:app"
