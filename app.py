@@ -3,6 +3,7 @@ import os
 import csv
 from datetime import datetime
 from werkzeug.utils import secure_filename
+from flask_mail import Mail, Message
 
 app = Flask(__name__)
 UPLOAD_FOLDER = 'uploads'
@@ -11,6 +12,16 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 # Crear la carpeta de subida si no existe
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
+
+# Configuración de correo (usa variables de entorno en Render)
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = os.environ.get('admonbribiesca@gmail.com')
+app.config['MAIL_PASSWORD'] = os.environ.get('jgwx fbng lswp idne')
+app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('admonbribiesca@gmail.com')
+
+mail = Mail(app)
 
 @app.route('/')
 def formulario():
@@ -42,6 +53,7 @@ def enviar():
     else:
         datos['archivo'] = ''
 
+    # Guardar en CSV
     csv_file = os.path.join(app.config['UPLOAD_FOLDER'], 'solicitudes_factura.csv')
     headers = [
         'Nombre', 'RFC', 'Correo Electrónico', 'Código Postal', 'Teléfono',
@@ -71,6 +83,26 @@ def enviar():
             datetime.now().strftime('%Y-%m-%d'),
             datos['archivo']
         ])
+
+    # Enviar correo con los datos
+    msg = Message("Nueva Solicitud de Factura", recipients=["destinatario@ejemplo.com"])
+    msg.body = f"""
+    Se recibió una nueva solicitud de factura:
+
+    Nombre: {datos['nombre']}
+    RFC: {datos['rfc']}
+    Correo: {datos['correo']}
+    Código Postal: {datos['codigo_postal']}
+    Teléfono: {datos['telefono']}
+    Régimen Fiscal: {datos['regimen_fiscal']}
+    Ticket: {datos['ticket']}
+    Uso CFDI: {datos['uso_cfdi']}
+    Monto: {datos['monto']}
+    Forma de Pago: {datos['forma_pago']}
+    Método de Pago: {datos['metodo_pago']}
+    Archivo: {datos['archivo']}
+    """
+    mail.send(msg)
 
     return render_template('confirmacion.html', datos=datos, monto=datos['monto'])
 
