@@ -85,7 +85,7 @@ def enviar():
         ])
 
     # Enviar correo con los datos
-    msg = Message("Nueva Solicitud de Factura", recipients=["destinatario@ejemplo.com"])
+    msg = Message("Nueva Solicitud de Factura", recipients=["admonbribiesca@gmail.com"])
     msg.body = f"""
     Se recibió una nueva solicitud de factura:
 
