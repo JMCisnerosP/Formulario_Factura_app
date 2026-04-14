@@ -13,13 +13,13 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 
-# Configuración de correo (usa variables de entorno en Render)
+# Configuración de correo (usa variables de entorno en Render o local)
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = os.environ.get('admonbribiesca@gmail.com')
-app.config['MAIL_PASSWORD'] = os.environ.get('jgwx fbng lswp idne')
-app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('admonbribiesca@gmail.com')
+app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')  # ejemplo: admonbribiesca@gmail.com
+app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')  # tu App Password de Gmail
+app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('MAIL_USERNAME')
 
 mail = Mail(app)
 
@@ -46,9 +46,12 @@ def enviar():
     }
 
     archivo = request.files['constancia']
-    if archivo:
+    ruta_archivo = None  # inicializamos para evitar NameError
+
+    if archivo and archivo.filename != '':
         filename = secure_filename(archivo.filename)
-        archivo.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        ruta_archivo = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        archivo.save(ruta_archivo)
         datos['archivo'] = filename
     else:
         datos['archivo'] = ''
@@ -85,7 +88,12 @@ def enviar():
         ])
 
     # Enviar correo con los datos
-    msg = Message("Nueva Solicitud de Factura", recipients=["admonbribiesca@gmail.com"])
+        msg = Message(
+    "Nueva Solicitud de Factura",
+    sender="admonbribiesca@gmail.com",
+    recipients=["admonbribiesca@gmail.com"]
+		)
+
     msg.body = f"""
     Se recibió una nueva solicitud de factura:
 
@@ -102,6 +110,16 @@ def enviar():
     Método de Pago: {datos['metodo_pago']}
     Archivo: {datos['archivo']}
     """
+
+    # Adjuntar archivo si existe
+    if ruta_archivo:
+        with open(ruta_archivo, 'rb') as f:
+            msg.attach(
+                datos['archivo'],
+                "application/octet-stream",  # o "application/pdf" si siempre es PDF
+                f.read()
+            )
+
     mail.send(msg)
 
     return render_template('confirmacion.html', datos=datos, monto=datos['monto'])
