@@ -107,23 +107,11 @@ def enviar():
         print("❌ Error al enviar correo con SendGrid:", str(e))
         return f"Error al enviar correo con SendGrid: {str(e)}"
 
-    # Guardar estado en sesión
-    session['form_enviado'] = True
-    session['datos'] = datos
-
-    return redirect(url_for('confirmacion'))
-
-@app.route('/confirmacion')
-def confirmacion():
-    if not session.get('form_enviado'):
-        return redirect(url_for('formulario'))
-    datos = session.get('datos')
-    return render_template('confirmacion.html', datos=datos)
+    return render_template('confirmacion.html', datos=datos, monto=datos['monto'])
 
 @app.route('/nuevo')
 def nuevo_formulario():
-    session.clear()
+    # Redirige al formulario limpio
     return redirect(url_for('formulario'))
-
 if __name__ == '__main__':
     app.run(debug=True)
