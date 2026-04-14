@@ -45,7 +45,7 @@ def enviar():
         'forma_pago': forma_pago,
         'metodo_pago': metodo_pago
     }
- print("✅ Datos recibidos:", datos)
+    print("✅ Datos recibidos:", datos)
     archivo = request.files['constancia']
     ruta_archivo = None  # inicializamos para evitar NameError
 
