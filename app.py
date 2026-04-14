@@ -29,6 +29,7 @@ def formulario():
 
 @app.route('/enviar', methods=['POST'])
 def enviar():
+     print("➡️ Entrando a la ruta /enviar")
     forma_pago, metodo_pago = request.form['forma_pago'].split('|')
     
     datos = {
@@ -44,7 +45,7 @@ def enviar():
         'forma_pago': forma_pago,
         'metodo_pago': metodo_pago
     }
-
+ print("✅ Datos recibidos:", datos)
     archivo = request.files['constancia']
     ruta_archivo = None  # inicializamos para evitar NameError
 
@@ -53,8 +54,10 @@ def enviar():
         ruta_archivo = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         archivo.save(ruta_archivo)
         datos['archivo'] = filename
+        print("📂 Archivo guardado en:", ruta_archivo)
     else:
         datos['archivo'] = ''
+        print("⚠️ No se subió archivo")
 
     # Guardar en CSV
     csv_file = os.path.join(app.config['UPLOAD_FOLDER'], 'solicitudes_factura.csv')
@@ -68,7 +71,8 @@ def enviar():
         with open(csv_file, mode='w', newline='', encoding='utf-8') as file:
             writer = csv.writer(file)
             writer.writerow(headers)
-    
+        print("📝 CSV creado con headers")
+
     with open(csv_file, mode='a', newline='', encoding='utf-8') as file:
         writer = csv.writer(file)
         writer.writerow([
@@ -86,8 +90,10 @@ def enviar():
             datetime.now().strftime('%Y-%m-%d'),
             datos['archivo']
         ])
+    print("📝 Datos agregados al CSV")
 
     # Enviar correo con los datos
+    print("📧 Preparando correo...")
     msg = Message(
     "Nueva Solicitud de Factura",
     sender=app.config['MAIL_USERNAME'],
@@ -112,6 +118,7 @@ def enviar():
 
     # Adjuntar archivo si existe
     if ruta_archivo:
+        print("📎 Adjuntando archivo al correo")
         with open(ruta_archivo, 'rb') as f:
             msg.attach(
                 datos['archivo'],
@@ -119,7 +126,9 @@ def enviar():
                 f.read()
             )
 
+    print("🚀 Enviando correo...")
     mail.send(msg)
+    print("✅ Correo enviado")
 
     return render_template('confirmacion.html', datos=datos, monto=datos['monto'])
 
