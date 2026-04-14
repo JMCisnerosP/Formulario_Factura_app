@@ -3,7 +3,7 @@ services:
     name: faappciesa
     env: python
     buildCommand: "pip install -r requirements.txt"
-    startCommand: "gunicorn app:app"
+    startCommand: "gunicorn app:app --timeout 120 --workers 2"
     envVars:
       - key: MAIL_USERNAME
         value: admonbribiesca@gmail.com
