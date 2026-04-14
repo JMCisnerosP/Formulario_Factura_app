@@ -17,6 +17,7 @@ if not os.path.exists(UPLOAD_FOLDER):
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
 app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')  # ejemplo: admonbribiesca@gmail.com
 app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')  # tu App Password de Gmail
 app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('MAIL_USERNAME')
@@ -129,6 +130,9 @@ def enviar():
     print("🚀 Enviando correo...")
     mail.send(msg)
     print("✅ Correo enviado")
+except Exception as e:
+        print("❌ Error al enviar correo:", str(e))
+        return f"Error al enviar correo: {str(e)}"
 
     return render_template('confirmacion.html', datos=datos, monto=datos['monto'])
 
