@@ -13,13 +13,13 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 # Configuración de correo (usa variables de entorno en Render o local) 587
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 465
+app.config['MAIL_SERVER'] = 'smtp.zoho.com'
+app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USE_SSL'] = False
-app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')  # ejemplo: admonbribiesca@gmail.com
-app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')  # tu App Password de Gmail
-app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('MAIL_USERNAME')
+app.config['MAIL_USERNAME'] = os.environ.get('ZOHO_USERNAME')  # tu correo Zoho
+app.config['MAIL_PASSWORD'] = os.environ.get('ZOHO_PASSWORD')  # tu contraseña o App Password
+app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('ZOHO_USERNAME')
 
 mail = Mail(app)
 
@@ -96,7 +96,7 @@ def enviar():
     print("📧 Preparando correo...")
     msg = Message(
     "Nueva Solicitud de Factura",
-    sender=app.config['MAIL_USERNAME'],
+    sender=app.config['ZOHO_USERNAME'],
     recipients=["admonbribiesca@gmail.com"]
     )
     msg.body = f"""
