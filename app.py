@@ -129,10 +129,7 @@ def enviar():
     print("🚀 Enviando correo...")
     mail.send(msg)
     print("✅ Correo enviado")
-    except Exception as e:
-        print("❌ Error al enviar correo:", str(e))
-        return f"Error al enviar correo: {str(e)}"
-
+   
     return render_template('confirmacion.html', datos=datos, monto=datos['monto'])
 
 
