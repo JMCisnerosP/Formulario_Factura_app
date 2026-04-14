@@ -10,8 +10,7 @@ UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # Crear la carpeta de subida si no existe
-if not os.path.exists(UPLOAD_FOLDER):
-    os.makedirs(UPLOAD_FOLDER)
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 # Configuración de correo (usa variables de entorno en Render o local)
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
