@@ -90,7 +90,7 @@ def enviar():
     # Enviar correo con los datos
     msg = Message(
     "Nueva Solicitud de Factura",
-    sender="admonbribiesca@gmail.com",
+    sender=app.config['MAIL_USERNAME'],
     recipients=["admonbribiesca@gmail.com"]
     )
     msg.body = f"""
