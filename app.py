@@ -124,5 +124,4 @@ def enviar():
 
     return render_template('confirmacion.html', datos=datos, monto=datos['monto'])
 
-if __name__ == '__main__':
-    app.run(debug=True)
+
