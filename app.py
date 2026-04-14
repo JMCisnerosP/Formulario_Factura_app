@@ -29,7 +29,7 @@ def formulario():
 
 @app.route('/enviar', methods=['POST'])
 def enviar():
-     print("➡️ Entrando a la ruta /enviar")
+     print("Entrando a la ruta /enviar")
     forma_pago, metodo_pago = request.form['forma_pago'].split('|')
     
     datos = {
