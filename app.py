@@ -130,7 +130,7 @@ def enviar():
     print("🚀 Enviando correo...")
     mail.send(msg)
     print("✅ Correo enviado")
-except Exception as e:
+    except Exception as e:
         print("❌ Error al enviar correo:", str(e))
         return f"Error al enviar correo: {str(e)}"
 
