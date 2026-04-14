@@ -10,14 +10,14 @@ UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-# Configuración de Zoho Mail
-app.config['MAIL_SERVER'] = 'smtp.zoho.com'
+# Configuración de SendGrid
+app.config['MAIL_SERVER'] = 'smtp.sendgrid.net'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USE_SSL'] = False
-app.config['MAIL_USERNAME'] = os.environ.get('ZOHO_USERNAME')  # tu correo Zoho
-app.config['MAIL_PASSWORD'] = os.environ.get('ZOHO_PASSWORD')  # tu contraseña o App Password
-app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('ZOHO_USERNAME')
+app.config['MAIL_USERNAME'] = 'apikey'  # literal, no tu correo
+app.config['MAIL_PASSWORD'] = os.environ.get('SENDGRID_API_KEY')
+app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('SENDGRID_SENDER')
 
 mail = Mail(app)
 
@@ -76,13 +76,13 @@ def enviar():
         ])
     print("📝 Datos agregados al CSV")
 
-    # Enviar correo con Zoho
+    # Enviar correo con SendGrid
     try:
         print("📧 Preparando correo...")
         msg = Message(
             "Nueva Solicitud de Factura",
-            sender=app.config['MAIL_USERNAME'],
-            recipients=[app.config['MAIL_USERNAME']]
+            sender=app.config['MAIL_DEFAULT_SENDER'],
+            recipients=[app.config['MAIL_DEFAULT_SENDER']]
         )
         msg.body = f"""
         Se recibió una nueva solicitud de factura:
@@ -100,11 +100,11 @@ def enviar():
         Método de Pago: {datos['metodo_pago']}
         Archivo: {datos['archivo']}
         """
-        print("🚀 Enviando correo...")
+        print("🚀 Enviando correo con SendGrid...")
         mail.send(msg)
-        print("✅ Correo enviado")
+        print("✅ Correo enviado con SendGrid")
     except Exception as e:
-        print("❌ Error al enviar correo:", str(e))
-        return f"Error al enviar correo: {str(e)}"
+        print("❌ Error al enviar correo con SendGrid:", str(e))
+        return f"Error al enviar correo con SendGrid: {str(e)}"
 
     return render_template('confirmacion.html', datos=datos, monto=datos['monto'])
