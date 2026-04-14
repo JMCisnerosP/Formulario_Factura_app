@@ -108,3 +108,10 @@ def enviar():
         return f"Error al enviar correo con SendGrid: {str(e)}"
 
     return render_template('confirmacion.html', datos=datos, monto=datos['monto'])
+
+@app.route('/nuevo')
+def nuevo_formulario():
+    # Redirige al formulario limpio
+    return redirect(url_for('formulario'))
+if __name__ == '__main__':
+    app.run(debug=True)
