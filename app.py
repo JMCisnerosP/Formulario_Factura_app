@@ -12,9 +12,9 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 # Crear la carpeta de subida si no existe
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-# Configuración de correo (usa variables de entorno en Render o local)
+# Configuración de correo (usa variables de entorno en Render o local) 587
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 587
+app.config['MAIL_PORT'] = 465
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USE_SSL'] = False
 app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')  # ejemplo: admonbribiesca@gmail.com
