@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request
 import os
 import csv
 from datetime import datetime
@@ -45,17 +45,13 @@ def enviar():
         'archivo': ''
     }
 
-        archivo = request.files['constancia']
-    ruta_archivo = None
-
+    archivo = request.files['constancia']
     if archivo and archivo.filename != '':
         filename = secure_filename(archivo.filename)
         ruta_archivo = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         archivo.save(ruta_archivo)
         datos['archivo'] = filename
-    else:
-        datos['archivo'] = ''
-         print("📂 Archivo guardado en:", ruta_archivo)
+        print("📂 Archivo guardado en:", ruta_archivo)
 
     # Guardar en CSV
     csv_file = os.path.join(app.config['UPLOAD_FOLDER'], 'solicitudes_factura.csv')
@@ -111,7 +107,7 @@ def enviar():
         print("❌ Error al enviar correo con SendGrid:", str(e))
         return f"Error al enviar correo con SendGrid: {str(e)}"
 
-     # Guardar estado en sesión y redirigir
+    # Guardar estado en sesión y redirigir
     session['form_enviado'] = True
     session['datos'] = datos
     return redirect(url_for('confirmacion'))
@@ -126,4 +122,3 @@ def confirmacion():
 def nuevo():
     session.clear()
     return redirect(url_for('formulario'))
-
