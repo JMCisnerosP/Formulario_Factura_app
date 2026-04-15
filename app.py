@@ -110,5 +110,5 @@ def enviar():
     except Exception as e:
         print("❌ Error al enviar correo con SendGrid:", str(e))
         return f"Error al enviar correo con SendGrid: {str(e)}"
-
-  return render_template('confirmacion.html', datos=datos, monto=datos['monto'])
+        
+        return render_template('confirmacion.html', datos=datos, monto=datos['monto'])
