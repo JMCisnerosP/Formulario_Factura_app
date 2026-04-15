@@ -118,5 +118,3 @@ def nuevo_formulario():
     # Redirige al formulario limpio
     return redirect(url_for('formulario'))
 
-if __name__ == '__main__':
-    app.run(debug=True)
