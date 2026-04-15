@@ -46,7 +46,7 @@ def enviar():
     }
 
        archivo = request.files.get('constancia')  # más seguro
-    ruta_archivo = None
+        ruta_archivo = None
 
     if archivo and archivo.filename.strip() != '':
         filename = secure_filename(archivo.filename)
