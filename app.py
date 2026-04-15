@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request
 import os
 import csv
 from datetime import datetime
@@ -6,7 +6,6 @@ from werkzeug.utils import secure_filename
 from flask_mail import Mail, Message
 
 app = Flask(__name__)
-
 UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
@@ -16,7 +15,7 @@ app.config['MAIL_SERVER'] = 'smtp.sendgrid.net'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USE_SSL'] = False
-app.config['MAIL_USERNAME'] = 'apikey'  # literal
+app.config['MAIL_USERNAME'] = 'apikey'  # literal, no tu correo
 app.config['MAIL_PASSWORD'] = os.environ.get('SENDGRID_API_KEY')
 app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('SENDGRID_SENDER')
 
@@ -31,7 +30,6 @@ def enviar():
     print("➡️ Entrando a la ruta /enviar")
 
     forma_pago, metodo_pago = request.form['forma_pago'].split('|')
-
     datos = {
         'nombre': request.form['nombre'],
         'rfc': request.form['rfc'],
@@ -62,7 +60,6 @@ def enviar():
         'Régimen Fiscal', 'Número de Ticket', 'Uso CFDI', 'Monto',
         'Forma de Pago', 'Método de Pago', 'Fecha de Solicitud', 'Archivo Subido'
     ]
-
     if not os.path.exists(csv_file):
         with open(csv_file, mode='w', newline='', encoding='utf-8') as file:
             writer = csv.writer(file)
@@ -77,7 +74,6 @@ def enviar():
             datos['metodo_pago'], datetime.now().strftime('%Y-%m-%d'),
             datos['archivo']
         ])
-
     print("📝 Datos agregados al CSV")
 
     # Enviar correo con SendGrid
@@ -110,5 +106,5 @@ def enviar():
     except Exception as e:
         print("❌ Error al enviar correo con SendGrid:", str(e))
         return f"Error al enviar correo con SendGrid: {str(e)}"
-        
-        return render_template('confirmacion.html', datos=datos, monto=datos['monto'])
+
+    return render_template('confirmacion.html', datos=datos, monto=datos['monto'])
