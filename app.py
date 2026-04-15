@@ -45,13 +45,17 @@ def enviar():
         'archivo': ''
     }
 
-    archivo = request.files['constancia']
-    if archivo and archivo.filename != '':
+       archivo = request.files.get('constancia')  # más seguro
+    ruta_archivo = None
+
+    if archivo and archivo.filename.strip() != '':
         filename = secure_filename(archivo.filename)
         ruta_archivo = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         archivo.save(ruta_archivo)
         datos['archivo'] = filename
-        print("📂 Archivo guardado en:", ruta_archivo)
+    else:
+        datos['archivo'] = ''
+         print("📂 Archivo guardado en:", ruta_archivo)
 
     # Guardar en CSV
     csv_file = os.path.join(app.config['UPLOAD_FOLDER'], 'solicitudes_factura.csv')
