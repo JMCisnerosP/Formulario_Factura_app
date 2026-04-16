@@ -51,6 +51,8 @@ def enviar():
         ruta_archivo = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         archivo.save(ruta_archivo)
         datos['archivo'] = filename
+    else:
+        datos['archivo'] = ''  # si no hay archivo, queda vacío
 
     # Guardar en CSV
     csv_file = os.path.join(app.config['UPLOAD_FOLDER'], 'solicitudes_factura.csv')
