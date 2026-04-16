@@ -42,6 +42,19 @@
             font-size: 14px;
             color: #7f8c8d;
         }
+        .btn {
+            margin-top: 20px;
+            padding: 12px 20px;
+            background-color: #0078d4;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #005fa3;
+        }
     </style>
 </head>
 <body>
@@ -59,10 +72,18 @@
             <li><strong>Monto:</strong> {{ datos.monto }}</li>
             <li><strong>Forma de Pago:</strong> {{ datos.forma_pago }}</li>
             <li><strong>Método de Pago:</strong> {{ datos.metodo_pago }}</li>
-            <li><strong>Archivo Subido:</strong> {{ datos.archivo }}</li>
+            <li><strong>Archivo Subido:</strong> {{ datos.archivo or 'Ninguno' }}</li>
         </ul>
         <div class="footer">
             Gracias por enviar tu solicitud de factura.
+        </div>
+        <div style="text-align: center; margin-top: 30px;">
+            <!-- Botón para reiniciar y mandar otro formulario -->
+            <a href="{{ url_for('nuevo_formulario') }}">
+                <button type="button" class="btn">
+                    Capturar nueva solicitud
+                </button>
+            </a>
         </div>
     </div>
 </body>
