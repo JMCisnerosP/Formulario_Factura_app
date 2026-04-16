@@ -84,26 +84,72 @@
 
             <label>Teléfono:</label>
             <input type="text" name="telefono" pattern="\d{10}" maxlength="10" required placeholder="Ej. 5512345678">
-
+            
             <label>Régimen Fiscal:</label>
-            <input type="text" name="regimen_fiscal" required>
+            <select name="regimen_fiscal" required>
+                <option value="601">601 - General de Ley Personas Morales</option>
+                <option value="603">603 - Personas Morales con Fines no Lucrativos</option>
+                <option value="605">605 - Sueldos y Salarios e Ingresos Asimilados a Salarios</option>
+                <option value="606">606 - Arrendamiento</option>
+                <option value="608">608 - Demás ingresos</option>
+                <option value="609">609 - Consolidación</option>
+                <option value="610">610 - Residentes en el Extranjero sin Establecimiento Permanente en México</option>
+                <option value="611">611 - Ingresos por Dividendos (socios y accionistas)</option>
+                <option value="612">612 - Personas Físicas con Actividades Empresariales y Profesionales</option>
+                <option value="614">614 - Ingresos por intereses</option>
+                <option value="615">615 - Régimen de los ingresos por obtención de premios</option>
+                <option value="616">616 - Sin obligaciones fiscales</option>
+                <option value="620">620 - Sociedades Cooperativas de Producción</option>
+                <option value="621">621 - Incorporación Fiscal</option>
+                <option value="622">622 - Actividades Agrícolas, Ganaderas, Silvícolas y Pesqueras</option>
+                <option value="623">623 - Opcional para Grupos de Sociedades</option>
+                <option value="624">624 - Coordinados</option>
+                <option value="625">625 - Régimen de las Actividades Empresariales con ingresos a través de Plataformas Tecnológicas</option>
+                <option value="626">626 - Régimen Simplificado de Confianza</option>
+            </select>
 
             <label>Número de Ticket:</label>
             <input type="text" name="ticket" required>
 
-            <label>Uso CFDI:</label>
-            <input type="text" name="uso_cfdi" required>
+            <label>Uso del CFDI:</label>
+            <select name="uso_cfdi" required>
+                <option value="G01">G01 - Adquisición de mercancías</option>
+                <option value="G02">G02 - Devoluciones, descuentos o bonificaciones</option>
+                <option value="G03">G03 - Gastos en general</option>
+                <option value="I01">I01 - Construcciones</option>
+                <option value="I02">I02 - Mobiliario y equipo de oficina por inversiones</option>
+                <option value="I03">I03 - Equipo de transporte</option>
+                <option value="I04">I04 - Equipo de cómputo y accesorios</option>
+                <option value="I05">I05 - Dados, troqueles, moldes, matrices y herramental</option>
+                <option value="I06">I06 - Comunicaciones telefónicas</option>
+                <option value="I07">I07 - Comunicaciones satelitales</option>
+                <option value="I08">I08 - Otra maquinaria y equipo</option>
+                <option value="D01">D01 - Honorarios médicos, dentales y gastos hospitalarios</option>
+                <option value="D02">D02 - Gastos médicos por incapacidad o discapacidad</option>
+                <option value="D03">D03 - Gastos funerales</option>
+                <option value="D04">D04 - Donativos</option>
+                <option value="D05">D05 - Intereses reales por créditos hipotecarios</option>
+                <option value="D06">D06 - Aportaciones voluntarias al SAR</option>
+                <option value="D07">D07 - Primas por seguros de gastos médicos</option>
+                <option value="D08">D08 - Gastos de transportación escolar obligatoria</option>
+                <option value="D09">D09 - Depósitos en cuentas para el ahorro, primas de seguros</option>
+                <option value="D10">D10 - Pagos por servicios educativos (colegiaturas)</option>
+                <option value="P01">P01 - Por definir</option>
+            </select>
 
             <label>Monto:</label>
-            <input type="text" name="monto" required>
+            <input type="number" name="monto" placeholder="0.00" required>
 
             <label>Forma y Método de Pago:</label>
             <select name="forma_pago" required>
-                <option value="Efectivo|PUE">Efectivo - Pago en una sola exhibición</option>
-                <option value="Tarjeta|PUE">Tarjeta - Pago en una sola exhibición</option>
-                <option value="Transferencia|PUE">Transferencia - Pago en una sola exhibición</option>
+                <option value="03|PUE">03 - Transferencia electrónica / PUE - Pago en una sola exhibición</option>
+                <option value="03|PPD">03 - Transferencia electrónica / PPD - Pago en parcialidades o diferido</option>
+                <option value="01|PUE">01 - Efectivo / PUE - Pago en una sola exhibición</option>
+                <option value="04|PUE">04 - Tarjeta de crédito / PUE - Pago en una sola exhibición</option>
+                <option value="28|PUE">28 - Tarjeta de débito / PUE - Pago en una sola exhibición</option>
+                <option value="99|PPD">99 - Por definir / PPD - Pago en parcialidades o diferido</option>
             </select>
-
+            
             <label>Constancia de Situación Fiscal <span class="note">(opcional)</span>:</label>
             <input type="file" name="constancia" accept=".pdf,.jpg,.jpeg,.png">
 
