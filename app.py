@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for, session
 import os
 import csv
 from datetime import datetime
@@ -6,15 +6,16 @@ from werkzeug.utils import secure_filename
 from flask_mail import Mail, Message
 
 app = Flask(__name__)
+app.secret_key = os.environ.get("SECRET_KEY", "clave-segura")  # Necesario para sesiones
+
 UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-# Configuración de SendGrid
+# Configuración de SendGrid (SMTP)
 app.config['MAIL_SERVER'] = 'smtp.sendgrid.net'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USE_SSL'] = False
 app.config['MAIL_USERNAME'] = 'apikey'  # literal, no tu correo
 app.config['MAIL_PASSWORD'] = os.environ.get('SENDGRID_API_KEY')
 app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('SENDGRID_SENDER')
@@ -27,8 +28,6 @@ def formulario():
 
 @app.route('/enviar', methods=['POST'])
 def enviar():
-    print("➡️ Entrando a la ruta /enviar")
-
     forma_pago, metodo_pago = request.form['forma_pago'].split('|')
     datos = {
         'nombre': request.form['nombre'],
@@ -45,13 +44,13 @@ def enviar():
         'archivo': ''
     }
 
-    archivo = request.files['constancia']
-    if archivo and archivo.filename != '':
+    archivo = request.files.get('constancia')
+    ruta_archivo = None
+    if archivo and archivo.filename.strip() != '':
         filename = secure_filename(archivo.filename)
         ruta_archivo = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         archivo.save(ruta_archivo)
         datos['archivo'] = filename
-        print("📂 Archivo guardado en:", ruta_archivo)
 
     # Guardar en CSV
     csv_file = os.path.join(app.config['UPLOAD_FOLDER'], 'solicitudes_factura.csv')
@@ -74,11 +73,9 @@ def enviar():
             datos['metodo_pago'], datetime.now().strftime('%Y-%m-%d'),
             datos['archivo']
         ])
-    print("📝 Datos agregados al CSV")
 
     # Enviar correo con SendGrid
     try:
-        print("📧 Preparando correo...")
         msg = Message(
             "Nueva Solicitud de Factura",
             sender=app.config['MAIL_DEFAULT_SENDER'],
@@ -100,11 +97,26 @@ def enviar():
         Método de Pago: {datos['metodo_pago']}
         Archivo: {datos['archivo']}
         """
-        print("🚀 Enviando correo con SendGrid...")
+        if ruta_archivo:
+            with open(ruta_archivo, 'rb') as f:
+                msg.attach(datos['archivo'], "application/pdf", f.read())
         mail.send(msg)
-        print("✅ Correo enviado con SendGrid")
     except Exception as e:
         print("❌ Error al enviar correo con SendGrid:", str(e))
         return f"Error al enviar correo con SendGrid: {str(e)}"
 
-    return render_template('confirmacion.html', datos=datos, monto=datos['monto'])
+    # Guardar estado en sesión y redirigir
+    session['form_enviado'] = True
+    session['datos'] = datos
+    return redirect(url_for('confirmacion'))
+
+@app.route('/confirmacion')
+def confirmacion():
+    if not session.get('form_enviado'):
+        return redirect(url_for('formulario'))
+    return render_template('confirmacion.html', datos=session.get('datos'))
+
+@app.route('/nuevo', endpoint='nuevo_formulario')
+def nuevo():
+    session.clear()
+    return redirect(url_for('formulario'))
