@@ -4,6 +4,8 @@ import csv
 from datetime import datetime
 from werkzeug.utils import secure_filename
 from flask_mail import Mail, Message
+print("SENDGRID_API_KEY:", os.environ.get("SENDGRID_API_KEY"))
+print("SENDGRID_SENDER:", os.environ.get("SENDGRID_SENDER"))
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY", "clave-segura")  # Necesario para sesiones
