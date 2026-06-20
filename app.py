@@ -15,10 +15,10 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 # Configuración de SendGrid (SMTP)
-app.config['MAIL_SERVER'] = 'smtp.sendgrid.net'
+app.config['MAIL_SERVER'] = 'smtp.zoho.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'apikey'  # literal, no tu correo
+app.config['MAIL_USERNAME'] = '928381792'  # literal, no tu correo
 app.config['MAIL_PASSWORD'] = os.environ.get('SENDGRID_API_KEY')
 app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('SENDGRID_SENDER')
 
@@ -106,8 +106,8 @@ def enviar():
                 msg.attach(datos['archivo'], "application/pdf", f.read())
         mail.send(msg)
     except Exception as e:
-        print("❌ Error al enviar correo con SendGrid:", str(e))
-        return f"Error al enviar correo con SendGrid: {str(e)}"
+        print("❌ Error al enviar correo con Zoho:", str(e))
+        return f"Error al enviar correo con Zoho: {str(e)}"
 
     # Guardar estado en sesión y redirigir
     session['form_enviado'] = True
