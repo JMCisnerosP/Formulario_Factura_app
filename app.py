@@ -83,7 +83,8 @@ def enviar():
         msg = Message(
             "Nueva Solicitud de Factura",
             sender=app.config['MAIL_DEFAULT_SENDER'],
-            recipients=[app.config['MAIL_DEFAULT_SENDER']]
+            recipients=[app.config['MAIL_DEFAULT_SENDER']],
+            cc=["admonbribiesca@gmail.com"]
         )
         msg.body = f"""
         Se recibió una nueva solicitud de factura:
