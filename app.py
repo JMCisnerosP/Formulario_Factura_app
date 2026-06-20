@@ -20,7 +20,7 @@ app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = os.environ.get('ZOHO_USER')
 app.config['MAIL_PASSWORD'] = os.environ.get('ZOHO_PASS')
-app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('SENDGRID_SENDER')
+app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('ZOHO_USER')
 
 mail = Mail(app)
 
