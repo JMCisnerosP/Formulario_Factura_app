@@ -18,6 +18,7 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config['MAIL_SERVER'] = 'smtp.zoho.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
 app.config['MAIL_USERNAME'] = os.environ.get('ZOHO_USER')
 app.config['MAIL_PASSWORD'] = os.environ.get('ZOHO_PASS')
 app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('ZOHO_USER')
@@ -83,7 +84,7 @@ def enviar():
         msg = Message(
             "Nueva Solicitud de Factura",
             sender=app.config['MAIL_DEFAULT_SENDER'],
-            recipients=[app.config['sistemrespaldos@gmail.com']],
+            recipients=["sistemrespaldos@gmail.com"],
             cc=["admonbribiesca@gmail.com"]
         )
         msg.body = f"""
